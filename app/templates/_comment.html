@@ -2,7 +2,7 @@
     <div class="card-header mb-1 pt-1 pb-1 h5"><span id="author">{{ comment.commenter.username }}</span>
         <small class="float-sm-right">
             <table>
-                <td style="padding-right: 0.5rem">{{ moment(comment.timestamp).fromNow() }}</td>
+                <td style="padding-right: 0.5rem">{{ moment(comment.timestamp).fromNow(refresh=True) }}</td>
                 <td>
                     <span class="_quote"><a id="{{ comment.id }}" href="#"> <img src="{{ url_for('static', filename='quote-button.svg') }}" class="block-image"></a></span>
                 </td>
