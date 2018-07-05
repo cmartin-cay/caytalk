@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <div class="container-fluid center-bar py-2">
+        <h3 style="max-width: 60rem">{{ post.title }}</h3>
+        <p></p>
+        {% for comment in comments %}
+            {% include '_comment.html' %}
+        {% endfor %}
+    </div>
+    <br>
+    <div class="container-fluid center-bar py-2">
+        <div class="row">
+            <div class="col" style="max-width: 60rem">
+               {{ wtf.quick_form(form, button_map={'submit':'success'}) }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Include external JS libs. -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+
+    <!-- Include Editor JS files. -->
+    <script type="text/javascript" src="/static/js/froala_editor.pkgd.min.js"></script>
+
+    <!-- Initialize the editor. -->
+    <script>
+        $(function() { $('textarea#text_box').froalaEditor({
+            heightMin: 165,
+            heightMax: 165,
+            placeholderText: "",
+            toolbarButtons: ['bold', 'italic', 'underline','strikeThrough', 'emoticons', '|', 'superscript','subscript', 'html'],
+            pluginsEnabled: ['url', 'emoticons', 'link', 'codeView'],
+            linkAlwaysBlank: true,
+            enter: $.FroalaEditor.ENTER_BR
+        })
+        });
+
+        $('._quote').click(function (event) {
+            event.preventDefault();
+            var quoteText = $(this).parents('#Comments').find('.card-text').html();
+            quoteText = quoteText.replace(/<(?!br\s*\/?)[^>]+>/g, '');
+            var quoteAuthor = $(this).parents('.card-header').find('#author').text();
+            quoteText = `"<i><b>${quoteAuthor}:</b> ${quoteText}</i>"<br><br>`;
+            $('html, body').animate({
+                scrollTop: $(".control-label").offset().top
+            }, 500);
+            $('textarea#text_box').froalaEditor('events.focus');
+            $('textarea#text_box').froalaEditor('html.insert', quoteText);
+        })
+
+    </script>
+
+{% endblock %}

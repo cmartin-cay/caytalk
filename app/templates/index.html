@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+        <a href="{{ url_for('submit') }}"><h1>Create Post</h1></a>
+    {% for post in posts %}
+        <!-- Blog Post -->
+        <div class="card bg-light mb-2 border-0">
+            <div class="card-body p-1">
+                <h6 class="card-title"> {{ post.title }}</h6>
+                <div class="card-text">
+                    <a href="{{ url_for('post', post_number=post.id) }}" class="btn btn-primary">Comments
+                        <span class="badge badge-pill badge-light">{{ post.number_of_comments() }}</span></a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}

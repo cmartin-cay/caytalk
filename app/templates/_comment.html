@@ -1,0 +1,25 @@
+<div class="card bg-light mb-2" id="Comments" style="max-width: 60rem;">
+    <div class="card-header mb-1 pt-1 pb-1 h5"><span id="author">{{ comment.commenter.username }}</span>
+        <small class="float-sm-right">
+            <table>
+                <td style="padding-right: 0.5rem">{{ moment(comment.timestamp).fromNow() }}</td>
+                <td>
+                    <span class="_quote"><a id="{{ comment.id }}" href="#"> <img src="{{ url_for('static', filename='quote-button.svg') }}" class="block-image"></a></span>
+                </td>
+                <td>
+                    <a href="{{ url_for('block', username=comment.commenter.username) }}"> <img src="{{ url_for('static', filename='cancel-circle.svg') }}" class="block-image"></a>
+                </td>
+                <td>
+
+                </td>
+            </table>
+        </small>
+
+    </div>
+    <div class="card-body pt-2 pb-2">
+        <div class="fr-view">
+        <p class="card-text" id="comment{{ comment.id }}">{{ comment.body|safe }}</p>
+        </div>
+    </div>
+</div>
+
