@@ -44,20 +44,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.4/holder.min.js"></script>
 
   </head>
-<body>
- <div class="container-fluid">
-  <div class="row">
-      <div class="col-md-1 col-lg-1 left_bar">
-          LEFT
+  <body>
+  <div class="container-fluid">
+      <div class="row">
+          <!-- Blog Entries Column -->
+          <div class="col-md-8">
+              {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                      {% for message in messages %}
+                          <div class="alert alert-info" role="alert">{{ message }}</div>
+                      {% endfor %}
+                  {% endif %}
+              {% endwith %}
+              {% block app_content %}{% endblock %}
+          </div>
       </div>
-      <div class="col-md-11 col-lg-8">
-      {% with messages = get_flashed_messages() %}
-          {% if messages %}
-              {% for message in messages %}
-                  <div class="alert alert-info" role="alert">{{ message }}</div>
-              {% endfor %}
-          {% endif %}
-      {% endwith %}
-  {% block app_content %}{% endblock %}
-</body>
+  </body>
 </html>
