@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-        <a href="{{ url_for('submit') }}"><h1>Create Post</h1></a>
+    <a href="{{ url_for('submit') }}"><h1>Create Post</h1></a>
     {% for post in posts %}
         <!-- Blog Post -->
         <div class="card bg-light mb-2 border-0">
@@ -15,11 +15,17 @@
         </div>
     {% endfor %}
 
-    <!-- Footer -->
-<footer class="footer">
-    <div class="container">
-        <p class="m-0 text-center">Copyright &copy; Your Website 2018</p>
-    </div>
-</footer>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="m-0 text-center">Copyright &copy; Your Website 2018</p>
+        </div>
+    </footer>
+
+{% endblock %}
+
+{% block sidebar %}
+    <!-- Include Side Bars -->
+    {% include 'sidebar.html' %}
 {% endblock %}
