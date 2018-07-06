@@ -21,10 +21,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     joined = db.Column(db.DateTime, default=datetime.utcnow)
-    birthday = db.Column(db.DateTime)
-    sex = db.Column(db.String(64))
     about_you = db.Column(db.Text)
-    occupation = db.Column(db.String(64))
     comments = db.relationship('Comment', backref='commenter', lazy='dynamic')
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     blocked = db.relationship(
@@ -64,7 +61,8 @@ def load_user(id):
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text)
-    body = db.Column(db.Text)
+    url = db.Column(db.Text)
+    source = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     comments = db.relationship('Comment', backref='blog_post', lazy='dynamic')
