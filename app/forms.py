@@ -2,7 +2,7 @@ from sqlalchemy import func
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.fields.html5 import DateField
-from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, URL
 from app.models import User
 
 
@@ -18,7 +18,6 @@ class RegistrationForm(FlaskForm):
     last_name = StringField('Last Name', validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    birthday = DateField('Birthday', format='%Y-%m-%d', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
@@ -37,9 +36,9 @@ class RegistrationForm(FlaskForm):
 
 
 class PostForm(FlaskForm):
-    title = StringField("Post Title", validators=[DataRequired()])
-    post = TextAreaField("Say something", validators=[DataRequired()])
-    submit = SubmitField('Add Post')
+    url = StringField("", validators=[URL()], render_kw={'placeholder': 'www.example.com'})
+    title = TextAreaField("", validators=[DataRequired()], render_kw={'placeholder': 'Your Headline'})
+    submit = SubmitField('Submit')
 
 
 class CommentForm(FlaskForm):

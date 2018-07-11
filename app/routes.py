@@ -47,7 +47,9 @@ def post(post_number):
 def submit():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(body=form.post.data, author=current_user)
+        post = Post(title=form.title.data, url=form.url.data, author=current_user)
+        print(post.url)
+        post.set_source(post.url)
         db.session.add(post)
         db.session.commit()
         flash(f'Your Post is now live')
@@ -80,7 +82,6 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     # User already logged in, can't login twice, return to index
@@ -94,7 +95,6 @@ def register():
                     last_name=form.last_name.data,
                     username=form.username.data,
                     email=form.email.data,
-                    birthday=form.birthday.data,
                     )
         user.set_password(form.password.data)
         db.session.add(user)

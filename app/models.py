@@ -3,6 +3,7 @@ from hashlib import md5
 from time import time
 from flask_login import UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from urllib.parse import urlparse
 # import jwt
 from app import app, db, login
 
@@ -62,13 +63,13 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text)
     url = db.Column(db.Text)
-    source = db.Column(db.Text)
+    source = db.Column(db.Text, index=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     comments = db.relationship('Comment', backref='blog_post', lazy='dynamic')
 
     def __repr__(self):
-        return f'Post {self.body[:15]}...'
+        return f'Post {self.title[:15]}...'
 
     def all_comments(self):
         blocked_comments = Comment.query.join(blockers, (blockers.c.blocked_id == Comment.user_id)).filter(blockers.c.blocker_id == current_user.id)
@@ -77,6 +78,10 @@ class Post(db.Model):
 
     def number_of_comments(self):
         return Comment.query.filter_by(post_id=self.id).count()
+
+    def set_source(self, full_url):
+        parsed_url = urlparse(full_url)
+        self.source = parsed_url.netloc
 
 
 class Comment(db.Model):
