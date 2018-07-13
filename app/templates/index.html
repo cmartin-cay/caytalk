@@ -6,11 +6,22 @@
         <!-- Blog Post -->
         <div class="card bg-light mb-2 border-0">
             <div class="card-body p-1">
-                <h6 class="card-title"> {{ post.title }}</h6>
+                <table>
+                    <td style="padding-right: 0.5rem">
+                        <a href="{{ post.url }}"> <svg width="90" height="25">
+                            <rect width="90" height="25" style="fill:lightgray;stroke-width:1;stroke: black" />
+                        </svg></a>
+                    </td>
+                    <td>
+                <h5 class="card-title"> <a class="plain" href="{{ post.url }}"> {{ post.title }}</a></h5>
+                    </td>
+                </table>
+
                 <div class="card-text">
                     <a href="{{ url_for('post', post_number=post.id) }}" class="btn btn-primary">Comments
                         <span class="badge badge-pill badge-light">{{ post.number_of_comments() }}</span></a>
                 </div>
+                </table>
             </div>
         </div>
     {% endfor %}
