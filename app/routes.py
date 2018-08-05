@@ -129,14 +129,16 @@ def block(username):
 @login_required
 def profile(username):
     user = User.query.filter_by(username=username).first_or_404()
-    not_shown = ['last_name', 'first_name', 'email', 'password_hash', 'last_seen']
-    profile_fields = [col for col in User.__table__.columns.keys() if col not in not_shown]
-    print(profile_fields)
-    return render_template('profile.html', username=user, profile_fields=profile_fields)
-
-@app.route('/fra_test')
-def fra_test():
-    return render_template('fra_test.html')
+    id = user.id
+    last_seen = user.last_seen
+    joined = user.joined
+    about_you = user.about_you
+    return render_template('profile.html',
+                           username=user,
+                           id=id,
+                           last_seen=last_seen,
+                           joined=joined,
+                           about_you=about_you)
 
 
 @app.context_processor
