@@ -134,11 +134,7 @@ def profile(username):
     joined = user.joined
     about_you = user.about_you
     return render_template('profile.html',
-                           username=user,
-                           id=id,
-                           last_seen=last_seen,
-                           joined=joined,
-                           about_you=about_you)
+                           user=user,)
 
 
 @app.context_processor

@@ -1,4 +1,30 @@
 {% extends "base.html" %}
 {% block app_content %}
+    <div class="container">
+        <table>
+            <tr>
+                <td>Member #:</td>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <td>Username:</td>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td>Last Seen:</td>
+                <td>{{ moment(user.last_seen).fromNow() }}</td>
+            </tr>
+            <tr>
+                <td>Member Since:</td>
+                <td>{{ moment(user.joined).format('LL') }}</td>
+            </tr>
+        </table>
+    </div>
+    <!-- Include Moment for human readable timestamps -->
+    {{ moment.include_moment() }}
+{% endblock %}
 
+{% block sidebar %}
+    <!-- Include Side Bars -->
+    {% include 'sidebar.html' %}
 {% endblock %}
