@@ -27,17 +27,17 @@
     <ul class="navbar-nav ml-auto">
         {% if current_user.is_anonymous %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                <a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
             </li>
         {% else %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('profile', username=current_user.username) }}">{{ current_user.username }}</a>
+                <a class="nav-link" href="{{ url_for('main.profile', username=current_user.username) }}">{{ current_user.username }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
             </li>
         {% endif %}
         </li>
