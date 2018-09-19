@@ -5,7 +5,7 @@ from flask_login import UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from urllib.parse import urlparse
 # import jwt
-from app import app, db, login
+from app import db, login
 
 blockers = db.Table('blockers',
                     db.Column('blocker_id', db.Integer, db.ForeignKey('user.id')),

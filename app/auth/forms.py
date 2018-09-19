@@ -1,8 +1,8 @@
-from sqlalchemy import func
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.fields.html5 import DateField
-from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, URL
+from sqlalchemy import func
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError
+from wtforms.validators import DataRequired, Email, EqualTo
+
 from app.models import User
 
 
@@ -33,14 +33,3 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter(func.lower(User.email) == func.lower(email.data)).first()
         if user:
             raise ValidationError(f'The email address is already in use. Please select a different address')
-
-
-class PostForm(FlaskForm):
-    url = StringField("", validators=[URL()], render_kw={'placeholder': 'www.example.com'})
-    title = TextAreaField("", validators=[DataRequired()], render_kw={'placeholder': 'Your Headline'})
-    submit = SubmitField('Submit')
-
-
-class CommentForm(FlaskForm):
-    comment = TextAreaField('Add your comment to the discussion:', id='text_box', validators=[DataRequired()])
-    submit = SubmitField('Post Your Comment')

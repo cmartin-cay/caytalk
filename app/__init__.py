@@ -6,13 +6,13 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from config import Config
 
-
 db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
 moment = Moment()
 login.login_view = 'login'
 bootstrap = Bootstrap()
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -26,4 +26,13 @@ def create_app(config_class=Config):
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
 
-from app import routes, models
+    from app.auth import bp as auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+
+    from app.main import bp as main_bp
+    app.register_blueprint(main_bp)
+
+    return app
+
+
+from app import models
