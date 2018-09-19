@@ -11,7 +11,7 @@ from app.auth import bp
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -21,7 +21,7 @@ def login():
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('index')
+            next_page = url_for('main.index')
         return redirect(next_page)
     return render_template('auth/login.html', title='Login', form=form)
 
@@ -30,7 +30,7 @@ def login():
 def register():
     # User already logged in, can't login twice, return to index
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     form = RegistrationForm()
     # valid form submitted, register User
     if form.validate_on_submit():
@@ -45,7 +45,7 @@ def register():
         db.session.commit()
         flash(f'Congratulations, you are now a registered user!'
               f' Please consider going to your profile to tell us a little more about you')
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     # No form data submitted or incorrect data, render the registration template
     return render_template('auth/register.html', title='Register', form=form)
 
@@ -53,4 +53,4 @@ def register():
 @bp.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))

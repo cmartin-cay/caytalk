@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <a href="{{ url_for('submit') }}"><h1>Create Post</h1></a>
+    <a href="{{ url_for('main.submit') }}"><h1>Create Post</h1></a>
     {% for post in posts %}
         <!-- Blog Post -->
         <div class="card bg-light mb-2 border-0">
@@ -18,7 +18,7 @@
                 </table>
 
                 <div class="card-text">
-                    <a href="{{ url_for('post', post_number=post.id) }}" class="btn btn-primary">Comments
+                    <a href="{{ url_for('main.post', post_number=post.id) }}" class="btn btn-primary">Comments
                         <span class="badge badge-pill badge-light">{{ post.number_of_comments() }}</span></a>
                 </div>
                 </table>
