@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <a href="{{ url_for('main.submit') }}"><h1>Create Post</h1></a>
     {% for post in posts %}
         <!-- Blog Post -->
         <div class="card bg-light mb-2 border-0">
@@ -13,7 +12,7 @@
                         </svg></a>
                     </td>
                     <td>
-                <h5 class="card-title"> <a class="plain" href="{{ post.url }}"> {{ post.title }}</a></h5>
+                        <h5 class="card-title"> <a class="plain" href="{{ post.url }}"> {{ post.title }}</a></h5>
                     </td>
                 </table>
 
@@ -34,9 +33,14 @@
         </div>
     </footer>
 
+    <script type="text/javascript">
+        $("#submit_link").removeClass("d-none");
+    </script>
+
 {% endblock %}
 
 {% block sidebar %}
     <!-- Include Side Bars -->
     {% include 'sidebar.html' %}
 {% endblock %}
+
