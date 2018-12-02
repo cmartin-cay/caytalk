@@ -4,13 +4,15 @@ from time import time
 from flask_login import UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from urllib.parse import urlparse
+
 # import jwt
 from app import db, login
 
-blockers = db.Table('blockers',
-                    db.Column('blocker_id', db.Integer, db.ForeignKey('user.id')),
-                    db.Column('blocked_id', db.Integer, db.ForeignKey('user.id')),
-                    )
+blockers = db.Table(
+    "blockers",
+    db.Column("blocker_id", db.Integer, db.ForeignKey("user.id")),
+    db.Column("blocked_id", db.Integer, db.ForeignKey("user.id")),
+)
 
 
 class User(UserMixin, db.Model):
@@ -23,16 +25,19 @@ class User(UserMixin, db.Model):
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     joined = db.Column(db.DateTime, default=datetime.utcnow)
     about_you = db.Column(db.Text)
-    comments = db.relationship('Comment', backref='commenter', lazy='dynamic')
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
+    comments = db.relationship("Comment", backref="commenter", lazy="dynamic")
+    posts = db.relationship("Post", backref="author", lazy="dynamic")
     blocked = db.relationship(
-        'User', secondary=blockers,
+        "User",
+        secondary=blockers,
         primaryjoin=(blockers.c.blocker_id == id),
         secondaryjoin=(blockers.c.blocked_id == id),
-        backref=db.backref('blockers', lazy='dynamic'), lazy='dynamic')
+        backref=db.backref("blockers", lazy="dynamic"),
+        lazy="dynamic",
+    )
 
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f"<User {self.username}>"
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -49,9 +54,7 @@ class User(UserMixin, db.Model):
             self.blocked.remove(user)
 
     def is_blocking(self, user):
-        return self.blocked.filter(
-            blockers.c.blocked_id == user.id).count() > 0
-
+        return self.blocked.filter(blockers.c.blocked_id == user.id).count() > 0
 
 
 @login.user_loader
@@ -65,14 +68,16 @@ class Post(db.Model):
     url = db.Column(db.Text)
     source = db.Column(db.Text, index=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    comments = db.relationship('Comment', backref='blog_post', lazy='dynamic')
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    comments = db.relationship("Comment", backref="blog_post", lazy="dynamic")
 
     def __repr__(self):
-        return f'Post {self.title[:15]}...'
+        return f"Post {self.title[:15]}..."
 
     def all_comments(self):
-        blocked_comments = Comment.query.join(blockers, (blockers.c.blocked_id == Comment.user_id)).filter(blockers.c.blocker_id == current_user.id)
+        blocked_comments = Comment.query.join(
+            blockers, (blockers.c.blocked_id == Comment.user_id)
+        ).filter(blockers.c.blocker_id == current_user.id)
         _all_comments = Comment.query.filter_by(post_id=self.id)
         return _all_comments.except_(blocked_comments).order_by(Comment.timestamp.asc())
 
@@ -88,8 +93,8 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    post_id = db.Column(db.Integer, db.ForeignKey("post.id"))
 
     def __repr__(self):
-        return f'Comment {self.body}'
+        return f"Comment {self.body}"

@@ -8,6 +8,7 @@ python_version = "3.7"
 
 [dev-packages]
 pylint = "<2.0.0"
+black = "*"
 
 [packages]
 Flask = "*"
@@ -21,3 +22,4 @@ WTForms = "*"
 Flask-Moment = "*"
 python-dotenv = "*"
 requests = "*"
+black = "*"
