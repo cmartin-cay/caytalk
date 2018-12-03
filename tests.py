@@ -1,7 +1,7 @@
 from datetime import datetime
 import unittest
-from app import app, db
-from app.models import User
+from app import db
+from app.models import User, Comment, Post
 
 
 class UserModelCase(unittest.TestCase):

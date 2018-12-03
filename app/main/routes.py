@@ -26,7 +26,7 @@ def index():
 def post(post_number):
     form = CommentForm()
     post = Post.query.filter_by(id=post_number).first_or_404()
-    comments = post.all_comments().all()
+    comments = post.show_comments().all()
     if form.validate_on_submit():
         # Strip beginning and ending <p> tags - until I find out how to do it in the editor
         if form.comment.data.startswith("<p>") and form.comment.data.endswith("</p>"):

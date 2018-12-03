@@ -70,12 +70,21 @@ class Post(db.Model):
     def __repr__(self):
         return f"Post {self.title[:15]}..."
 
-    def all_comments(self):
-        blocked_comments = Comment.query.join(
+    def show_comments(self):
+        all_comments = Comment.query.filter_by(post_id=self.id)
+        # This hides the comments from people that you have blocked
+        blocked_comments = all_comments.join(
             blockers, (blockers.c.blocked_id == Comment.user_id)
         ).filter(blockers.c.blocker_id == current_user.id)
-        _all_comments = Comment.query.filter_by(post_id=self.id)
-        return _all_comments.except_(blocked_comments).order_by(Comment.timestamp.asc())
+        # This prevents the people that you have blocked from seeing your comments
+        blocked_by_comments = all_comments.join(
+            blockers, (blockers.c.blocker_id == Comment.user_id)
+        ).filter(blockers.c.blocked_id == current_user.id)
+        return (
+            all_comments.except_(blocked_comments)
+            .except_(blocked_by_comments)
+            .order_by(Comment.timestamp.asc())
+        )
 
     def number_of_comments(self):
         return Comment.query.filter_by(post_id=self.id).count()
