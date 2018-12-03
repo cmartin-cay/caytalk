@@ -1,11 +1,7 @@
 from datetime import datetime
-from hashlib import md5
-from time import time
 from flask_login import UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from urllib.parse import urlparse
-
-# import jwt
 from app import db, login
 
 blockers = db.Table(

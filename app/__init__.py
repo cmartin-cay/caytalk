@@ -10,7 +10,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
 moment = Moment()
-login.login_view = "login"
+login.login_view = "auth.login"
 bootstrap = Bootstrap()
 
 
