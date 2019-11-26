@@ -4,7 +4,7 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
 
 [dev-packages]
 pylint = "<2.0.0"
@@ -21,4 +21,3 @@ WTForms = "*"
 Flask-Moment = "*"
 python-dotenv = "*"
 requests = "*"
-pygraphviz = "==1.5"
